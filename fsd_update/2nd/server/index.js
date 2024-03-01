@@ -6,14 +6,13 @@ const app=express()
 app.use(cors())
 app.use(express.json())
 
-app.get('/studentdetails',(req,res)=>{
-   
-        if(students){
-            res.json(students)
-        }else{
-            res.json({"error":"No students found"})
-        }
-    
+const mongoose=require('mongoose')
+mongoose.connect('mongodb://localhost:27017/abcd').then(()=>{
+    console.log("connected to database");
+})
+
+app.get('/studentdetails',(req,res)=>{  
+            res.json(students)      
 })
 
 app.listen(3000,()=>{
