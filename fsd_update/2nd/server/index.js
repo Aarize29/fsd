@@ -2,13 +2,15 @@ const express=require('express')
 const cors=require('cors')
 const app=express();
 app.use(express.json())
-//handle cors issue
-app.use(cors())
 
-//create order api
-
-app.post('/order',(req,res)=>{
-    console.log(req.body)
+app.get('/studentdetails',(req,res)=>{
+   
+        if(students){
+            res.json(students)
+        }else{
+            res.json({"error":"No students found"})
+        }
+    
 })
 
 app.listen(3000,()=>{
