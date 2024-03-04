@@ -2,41 +2,56 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
-  const [students,setStudents]=useState([])
+      const [itemName, setItemName] = useState("")
+      const [quantity,setQuantity]=useState("");
+      const [instructions, setInstruction]=useState("");
 
-  const studentdetail=async()=>{
-     const res=await fetch('http://localhost:3000/studentdetails',{
-        method:'GET',
-        headers:{
-          'content-type':'application/json'
-        }
-      })
-      const data=await res.json();
-      setStudents(data)
-      
-  }
+      const order={
+        'itemName':itemName,
+        'quantity':quantity,
+        'instruction':instructions
+      }
+      const handleSubmit =async (e)=>{
+                e.preventDefault();
+                 await fetch('http://localhost:3000/order', {
+                  method:'POST',
+                  headers:{
+                    'Content-Type': 'application/json'
+                  },  
+                  body:JSON.stringify(order)
+                })        
+      }
 
- studentdetail()
-  
-  // console.log(students)
- 
   return (
-    <div className="container">
-    <h1 className="mt-4 mb-4">Student Dashboard</h1>
-    <div className="row">
-      {students.map((student, index) => (
-        <div key={index} className="col-lg-4 mb-4">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">{student.name}</h5>
-              <p className="card-text">USN: {student.usn}</p>
-              <p className="card-text">Hobbie: {student.hobbie}</p>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div> 
+   <>
+      <div className='heading'>
+         <h1> Meghnas Biryani</h1>
+      </div>
+      <div className="container">
+      <form className="form" onSubmit={handleSubmit}>
+           <div className='inputs'>
+           <label htmlFor="itemName">Item Name:</label>
+           <input type="text" id='itemName' placeholder='Enter Item Name'  value={itemName} onChange={(e)=>{
+              setItemName(e.target.value);
+           }} />
+           </div>
+           <div className='inputs'>
+           <label htmlFor="quantity">Quantity:</label>
+           <input type="number" id='quantity' placeholder='0' value={quantity} onChange={(e)=>{
+             setQuantity( e.target.value);
+           }}/>
+           </div>
+           <div className='inputs'>
+           <label htmlFor="special">Special Instructions:</label>
+           <input type="text" id='special' placeholder='Add instructions' value={instructions} onChange={(e)=>{
+             setInstruction(e.target.value)
+           }}/>
+           </div>
+
+           <button type='submit'>Place Order</button>
+      </form>
+      </div>
+   </>
   )
 }
 
