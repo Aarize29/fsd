@@ -1,20 +1,16 @@
-const express= require('express')
+const express=require('express')
 const cors=require('cors')
-const students=require('./student.json')
-const app=express()
-
-app.use(cors())
+const app=express();
 app.use(express.json())
+//handle cors issue
+app.use(cors())
 
-const mongoose=require('mongoose')
-mongoose.connect('mongodb://localhost:27017/abcd').then(()=>{
-    console.log("connected to database");
-})
+//create order api
 
-app.get('/studentdetails',(req,res)=>{  
-            res.json(students)      
+app.post('/order',(req,res)=>{
+    console.log(req.body)
 })
 
 app.listen(3000,()=>{
-    console.log("Server is listening on port 3000");
+    console.log("Server is running on port 3000");
 })
